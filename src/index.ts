@@ -3,11 +3,12 @@ import { serve } from "@hono/node-server";
 import { app } from "./app.js";
 import { setupDatabase } from "./db/config.js";
 import { log } from "./utils/logger.js";
+import env from "../env.js";
 
 try {
   await setupDatabase();
 
-  const port = Number(process.env.PORT ?? 3001);
+  const port = Number(env.PORT ?? 3001);
 
   const server = serve(
     {

@@ -2,9 +2,7 @@
   "version": "7",
   "dialect": "sqlite",
   "id": "a4a940a1-768d-4559-a6e4-b8f37528a59a",
-  "prevIds": [
-    "a070cc7b-10b3-456b-92a4-9690d6de756c"
-  ],
+  "prevIds": ["a070cc7b-10b3-456b-92a4-9690d6de756c"],
   "ddl": [
     {
       "name": "todos",
@@ -95,13 +93,9 @@
       "table": "users"
     },
     {
-      "columns": [
-        "user_id"
-      ],
+      "columns": ["user_id"],
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "nameExplicit": false,
@@ -110,27 +104,21 @@
       "table": "todos"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "todos_pk",
       "table": "todos",
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "users_pk",
       "table": "users",
       "entityType": "pks"
     },
     {
-      "columns": [
-        "email"
-      ],
+      "columns": ["email"],
       "nameExplicit": false,
       "name": "users_email_unique",
       "entityType": "uniques",

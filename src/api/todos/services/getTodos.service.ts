@@ -1,4 +1,4 @@
-import {getTodosByUserId} from "../queries/getTodosByUserId.query.js";
+import { getTodosByUserId } from "../queries/getTodosByUserId.query.js";
 
 type GetTodosInput = {
   userId: number;

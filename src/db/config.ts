@@ -1,7 +1,8 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import { log } from "../utils/logger.js";
-import {relations} from "./schema.js";
+import { relations } from "./schema.js";
+import env from "../../env.js";
 
 export let db: ReturnType<typeof drizzle>;
 
@@ -10,12 +11,12 @@ export async function setupDatabase() {
     return db;
   }
 
-  if (!process.env.DB_FILE_NAME) {
+  if (!env.DB_FILE_NAME) {
     throw new Error("Missing DB_FILE_NAME environment variable");
   }
 
   const client = createClient({
-    url: process.env.DB_FILE_NAME,
+    url: env.DB_FILE_NAME,
   });
 
   const database = drizzle({ client, relations });
@@ -31,7 +32,9 @@ export async function setupDatabase() {
 
 export function getDatabase() {
   if (!db) {
-    throw new Error("Database has not been initialized. Call setupDatabase() first.");
+    throw new Error(
+      "Database has not been initialized. Call setupDatabase() first.",
+    );
   }
 
   return db;

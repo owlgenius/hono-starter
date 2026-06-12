@@ -9,8 +9,5 @@ type TodoSelect = typeof todosTable.$inferSelect;
 export async function getTodosByUserId(userId: TodoSelect["userId"]) {
   const db = getDatabase();
 
-  return db
-    .select()
-    .from(todosTable)
-    .where(eq(todosTable.userId, userId));
+  return db.select().from(todosTable).where(eq(todosTable.userId, userId));
 }

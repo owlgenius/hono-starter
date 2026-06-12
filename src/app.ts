@@ -11,15 +11,19 @@ import {
   ValidationError,
 } from "./utils/errors.js";
 import { log } from "./utils/logger.js";
-import { structuredLogger } from '@hono/structured-logger'
+import { structuredLogger } from "@hono/structured-logger";
 import { requestId } from "hono/request-id";
+import env from "../env.js";
 
 const rootLogger = pino({
-  ...(process.env.NODE_ENV === 'production') ? {} : {
-      transport: {
-        target: 'pino-pretty',
-      }
-    },
+  ...(env.NODE_ENV === "production"
+    ? {}
+    : {
+        transport: {
+          target: "pino-pretty",
+          level: "debug",
+        },
+      }),
 });
 
 export const app = new OpenAPIHono<AppEnv>();
@@ -34,7 +38,7 @@ app.use(requestId());
 app.use(
   structuredLogger({
     createLogger: (c) => rootLogger.child({ requestId: c.var.requestId }),
-  })
+  }),
 );
 
 const codeByStatus: Record<number, string> = {
@@ -49,14 +53,17 @@ const codeByStatus: Record<number, string> = {
 };
 
 app.notFound((c) => {
-  return c.json({
-    success: false,
-    error: {
-      code: codeByStatus[404],
-      message: `${c.req.path} not found`,
-    }
-  }, 404);
-})
+  return c.json(
+    {
+      success: false,
+      error: {
+        code: codeByStatus[404],
+        message: `${c.req.path} not found`,
+      },
+    },
+    404,
+  );
+});
 
 app.onError((error, c) => {
   if (error instanceof AppError) {

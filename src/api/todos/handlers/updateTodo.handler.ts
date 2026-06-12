@@ -1,7 +1,7 @@
 import type { RouteHandler } from "@hono/zod-openapi";
 import type { AppEnv } from "@/types/hono.js";
-import {updateTodoRoute} from "../routes/updateTodo.route.js";
-import {updateTodoService} from "../services/updateTodo.service.js";
+import { updateTodoRoute } from "../routes/updateTodo.route.js";
+import { updateTodoService } from "../services/updateTodo.service.js";
 
 export const updateTodoHandler: RouteHandler<
   typeof updateTodoRoute,

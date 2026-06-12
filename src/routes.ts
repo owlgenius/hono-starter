@@ -1,6 +1,6 @@
 import todosRoutes from "./api/todos/routes/index.js";
-import {createAppRouter} from "./utils/createAppRouter.js";
-import {createRoute, z} from "@hono/zod-openapi";
+import { createAppRouter } from "./utils/createAppRouter.js";
+import { createRoute, z } from "@hono/zod-openapi";
 
 const routes = createAppRouter();
 
@@ -34,6 +34,6 @@ routes.openapi(healthRoute, (c) => {
   );
 });
 
-routes.route('/todos', todosRoutes);
+routes.route("/todos", todosRoutes);
 
 export default routes;

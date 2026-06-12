@@ -29,7 +29,7 @@ export class AppError extends Error {
   constructor(
     public statusCode: ContentfulStatusCode,
     public code: ErrorCode,
-    message: ErrorMessage
+    message: ErrorMessage,
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -37,7 +37,10 @@ export class AppError extends Error {
 }
 
 export class BadRequestError extends AppError {
-  constructor(message: ErrorMessage = ERROR_MESSAGES.BAD_REQUEST, code = ERROR_CODES.BAD_REQUEST) {
+  constructor(
+    message: ErrorMessage = ERROR_MESSAGES.BAD_REQUEST,
+    code = ERROR_CODES.BAD_REQUEST,
+  ) {
     super(400, code, message);
   }
 }
@@ -46,26 +49,35 @@ export class ValidationError extends AppError {
   constructor(
     public fields: Record<string, string>,
     message: ErrorMessage = ERROR_MESSAGES.VALIDATION_ERROR,
-    code = ERROR_CODES.VALIDATION_ERROR
+    code = ERROR_CODES.VALIDATION_ERROR,
   ) {
     super(400, code, message);
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message: ErrorMessage = ERROR_MESSAGES.UNAUTHORIZED, code = ERROR_CODES.UNAUTHORIZED) {
+  constructor(
+    message: ErrorMessage = ERROR_MESSAGES.UNAUTHORIZED,
+    code = ERROR_CODES.UNAUTHORIZED,
+  ) {
     super(401, code, message);
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(message: ErrorMessage = ERROR_MESSAGES.NOT_FOUND, code = ERROR_CODES.NOT_FOUND) {
+  constructor(
+    message: ErrorMessage = ERROR_MESSAGES.NOT_FOUND,
+    code = ERROR_CODES.NOT_FOUND,
+  ) {
     super(404, code, message);
   }
 }
 
 export class ConflictError extends AppError {
-  constructor(message: ErrorMessage = ERROR_MESSAGES.CONFLICT, code = ERROR_CODES.CONFLICT) {
+  constructor(
+    message: ErrorMessage = ERROR_MESSAGES.CONFLICT,
+    code = ERROR_CODES.CONFLICT,
+  ) {
     super(409, code, message);
   }
 }

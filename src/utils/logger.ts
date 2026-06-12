@@ -32,7 +32,11 @@ export const log = {
     }
   },
 
-  error(message: string, error?: unknown, options: LogOptions = { details: true }) {
+  error(
+    message: string,
+    error?: unknown,
+    options: LogOptions = { details: true },
+  ) {
     console.error(theme.error("✖ Error"), message);
 
     if (options.details) {
@@ -40,7 +44,12 @@ export const log = {
     }
   },
 
-  http(status: number, message: string, error?: unknown, options: LogOptions = {}) {
+  http(
+    status: number,
+    message: string,
+    error?: unknown,
+    options: LogOptions = {},
+  ) {
     const shouldShowDetails = options.details ?? status >= 500;
 
     if (status >= 500) {

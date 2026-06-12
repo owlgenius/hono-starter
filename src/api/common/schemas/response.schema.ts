@@ -1,5 +1,5 @@
 import { z } from "@hono/zod-openapi";
-import {ERROR_CODES, ERROR_MESSAGES} from "../../../utils/errors.js";
+import { ERROR_CODES, ERROR_MESSAGES } from "../../../utils/errors.js";
 
 export const ValidationErrorResponseSchema = z
   .object({
@@ -21,7 +21,6 @@ export const ValidationErrorResponseSchema = z
   })
   .openapi("ValidationErrorResponse");
 
-
 export const UnauthorizedErrorResponseSchema = z
   .object({
     success: z.literal(false).openapi({ example: false }),
@@ -36,19 +35,20 @@ export const UnauthorizedErrorResponseSchema = z
   })
   .openapi("UnauthorizedErrorResponse");
 
-export const NotFoundErrorResponseSchema = (entity: string) => z
-  .object({
-    success: z.literal(false).openapi({ example: false }),
-    error: z.object({
-      code: z.literal(ERROR_CODES.NOT_FOUND).openapi({
-        example: ERROR_CODES.NOT_FOUND,
+export const NotFoundErrorResponseSchema = (entity: string) =>
+  z
+    .object({
+      success: z.literal(false).openapi({ example: false }),
+      error: z.object({
+        code: z.literal(ERROR_CODES.NOT_FOUND).openapi({
+          example: ERROR_CODES.NOT_FOUND,
+        }),
+        message: z.string().openapi({
+          example: `${entity} not found`,
+        }),
       }),
-      message: z.string().openapi({
-        example: `${entity} not found`,
-      }),
-    }),
-  })
-  .openapi(`${entity}NotFoundErrorResponse`);
+    })
+    .openapi(`${entity}NotFoundErrorResponse`);
 
 export const InternalServerErrorResponseSchema = z
   .object({

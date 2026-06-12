@@ -1,5 +1,5 @@
 import { createTodo } from "../queries/createTodo.query.js";
-import type {CreateTodoBody} from "../schemas/todos.schema.js";
+import type { CreateTodoBody } from "../schemas/todos.schema.js";
 
 type CreateTodoInput = CreateTodoBody & {
   userId: number;

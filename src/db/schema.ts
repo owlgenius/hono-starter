@@ -1,25 +1,29 @@
 import { check, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { defineRelations, sql } from "drizzle-orm";
 
-export const usersTable = sqliteTable("users", {
-  id: int().primaryKey({ autoIncrement: true }),
-  name: text({length: 100}).notNull(),
-  age: int().notNull(),
-  email: text({length: 255}).notNull().unique(),
-}, (table) => [
-  check("users_name_not_empty_check", sql`length(trim(${table.name})) > 0`),
-  check("users_name_length_check", sql`length(${table.name}) <= 100`),
-  check("users_age_check", sql`${table.age} between 0 and 150`),
-  check("users_email_not_empty_check", sql`length(trim(${table.email})) > 0`),
-  check("users_email_length_check", sql`length(${table.email}) <= 255`),
-]);
+export const usersTable = sqliteTable(
+  "users",
+  {
+    id: int().primaryKey({ autoIncrement: true }),
+    name: text({ length: 100 }).notNull(),
+    age: int().notNull(),
+    email: text({ length: 255 }).notNull().unique(),
+  },
+  (table) => [
+    check("users_name_not_empty_check", sql`length(trim(${table.name})) > 0`),
+    check("users_name_length_check", sql`length(${table.name}) <= 100`),
+    check("users_age_check", sql`${table.age} between 0 and 150`),
+    check("users_email_not_empty_check", sql`length(trim(${table.email})) > 0`),
+    check("users_email_length_check", sql`length(${table.email}) <= 255`),
+  ],
+);
 
 export const todosTable = sqliteTable(
   "todos",
   {
     id: int().primaryKey({ autoIncrement: true }),
-    title: text({length: 200}).notNull(),
-    completed: int({mode: "boolean"}).notNull().default(false),
+    title: text({ length: 200 }).notNull(),
+    completed: int({ mode: "boolean" }).notNull().default(false),
 
     // real FK column
     userId: int("user_id")

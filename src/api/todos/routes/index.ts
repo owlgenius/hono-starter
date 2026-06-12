@@ -1,8 +1,8 @@
-import {createAppRouter} from "../../../utils/createAppRouter.js";
-import {authMiddleware} from "../../users/middleware/auth.middleware.js";
-import {getTodosHandler} from "../handlers/getTodos.handler.js";
-import {createTodoHandler} from "../handlers/createTodo.handler.js";
-import {updateTodoHandler} from "../handlers/updateTodo.handler.js";
+import { createAppRouter } from "../../../utils/createAppRouter.js";
+import { authMiddleware } from "../../users/middleware/auth.middleware.js";
+import { getTodosHandler } from "../handlers/getTodos.handler.js";
+import { createTodoHandler } from "../handlers/createTodo.handler.js";
+import { updateTodoHandler } from "../handlers/updateTodo.handler.js";
 
 import { getTodosRoute } from "./getTodos.route.js";
 import { createTodoRoute } from "./createTodo.route.js";

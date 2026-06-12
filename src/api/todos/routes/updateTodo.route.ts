@@ -1,10 +1,14 @@
-import {createRoute} from "@hono/zod-openapi";
-import {TodoResponseSchema, UpdateTodoBodySchema, UpdateTodoParamsSchema} from "../schemas/todos.schema.js";
+import { createRoute } from "@hono/zod-openapi";
+import {
+  TodoResponseSchema,
+  UpdateTodoBodySchema,
+  UpdateTodoParamsSchema,
+} from "../schemas/todos.schema.js";
 import {
   internalServerErrorResponse,
   notFoundResponse,
   unauthorizedResponse,
-  validationErrorResponse
+  validationErrorResponse,
 } from "../../common/openapi/responses.js";
 
 export const updateTodoRoute = createRoute({
