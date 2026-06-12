@@ -1,0 +1,189 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "a4a940a1-768d-4559-a6e4-b8f37528a59a",
+  "prevIds": [
+    "a070cc7b-10b3-456b-92a4-9690d6de756c"
+  ],
+  "ddl": [
+    {
+      "name": "todos",
+      "entityType": "tables"
+    },
+    {
+      "name": "users",
+      "entityType": "tables"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "todos"
+    },
+    {
+      "type": "text(200)",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "title",
+      "entityType": "columns",
+      "table": "todos"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "completed",
+      "entityType": "columns",
+      "table": "todos"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "user_id",
+      "entityType": "columns",
+      "table": "todos"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text(100)",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "age",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text(255)",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "email",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "columns": [
+        "user_id"
+      ],
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "name": "fk_todos_user_id_users_id_fk",
+      "entityType": "fks",
+      "table": "todos"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "todos_pk",
+      "table": "todos",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "users_pk",
+      "table": "users",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "email"
+      ],
+      "nameExplicit": false,
+      "name": "users_email_unique",
+      "entityType": "uniques",
+      "table": "users"
+    },
+    {
+      "value": "length(trim(\"title\")) > 0",
+      "name": "todos_title_not_empty_check",
+      "entityType": "checks",
+      "table": "todos"
+    },
+    {
+      "value": "length(\"title\") <= 200",
+      "name": "todos_title_length_check",
+      "entityType": "checks",
+      "table": "todos"
+    },
+    {
+      "value": "\"completed\" in (0, 1)",
+      "name": "todos_completed_check",
+      "entityType": "checks",
+      "table": "todos"
+    },
+    {
+      "value": "length(trim(\"name\")) > 0",
+      "name": "users_name_not_empty_check",
+      "entityType": "checks",
+      "table": "users"
+    },
+    {
+      "value": "length(\"name\") <= 100",
+      "name": "users_name_length_check",
+      "entityType": "checks",
+      "table": "users"
+    },
+    {
+      "value": "\"age\" between 0 and 150",
+      "name": "users_age_check",
+      "entityType": "checks",
+      "table": "users"
+    },
+    {
+      "value": "length(trim(\"email\")) > 0",
+      "name": "users_email_not_empty_check",
+      "entityType": "checks",
+      "table": "users"
+    },
+    {
+      "value": "length(\"email\") <= 255",
+      "name": "users_email_length_check",
+      "entityType": "checks",
+      "table": "users"
+    }
+  ],
+  "renames": []
+}
