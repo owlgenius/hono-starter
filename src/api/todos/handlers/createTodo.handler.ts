@@ -1,11 +1,10 @@
-import type { RouteHandler } from "@hono/zod-openapi";
-import type { AppEnv } from "@/types/hono.js";
+import type { AppRouteHandler } from "@/types/hono.js";
 import { createTodoService } from "../services/createTodo.service.js";
 import { createTodoRoute } from "../routes/createTodo.route.js";
+import { CREATED } from "@/utils/http-status-codes.js";
 
-export const createTodoHandler: RouteHandler<
-  typeof createTodoRoute,
-  AppEnv
+export const createTodoHandler: AppRouteHandler<
+  typeof createTodoRoute
 > = async (c) => {
   const userId = c.get("userId");
   const body = c.req.valid("json");
@@ -21,6 +20,6 @@ export const createTodoHandler: RouteHandler<
       success: true,
       data: todo,
     },
-    201,
+    CREATED,
   );
 };

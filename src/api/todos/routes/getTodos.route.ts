@@ -4,6 +4,11 @@ import {
   internalServerErrorResponse,
   unauthorizedResponse,
 } from "../../common/openapi/responses.js";
+import {
+  INTERNAL_SERVER_ERROR,
+  OK,
+  UNAUTHORIZED,
+} from "@/utils/http-status-codes.js";
 
 export const getTodosRoute = createRoute({
   method: "get",
@@ -12,7 +17,7 @@ export const getTodosRoute = createRoute({
   security: [{ Bearer: [] }],
   summary: "Get authenticated user's todos",
   responses: {
-    200: {
+    [OK]: {
       description: "Todos retrieved successfully",
       content: {
         "application/json": {
@@ -20,7 +25,7 @@ export const getTodosRoute = createRoute({
         },
       },
     },
-    401: unauthorizedResponse,
-    500: internalServerErrorResponse,
+    [UNAUTHORIZED]: unauthorizedResponse,
+    [INTERNAL_SERVER_ERROR]: internalServerErrorResponse,
   },
 });

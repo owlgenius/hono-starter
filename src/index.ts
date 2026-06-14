@@ -4,6 +4,7 @@ import { app } from "./app.js";
 import { setupDatabase } from "./db/config.js";
 import { log } from "./utils/logger.js";
 import env from "../env.js";
+import { rootLogger } from "@/utils/pino.js";
 
 try {
   await setupDatabase();
@@ -17,17 +18,25 @@ try {
     },
     () => {
       log.server(`Running on http://localhost:${port}`);
-      log.server(`OpenAPI docs available at http://localhost:${port}/ui`);
+      // we have 2 choices for the ui Swagger (/ui) or Scalar (/scalar)
+      log.server(
+        `OpenAPI docs available at http://localhost:${port}/ui (Swagger UI) or http://localhost:${port}/scalar (Scalar)`,
+      );
     },
   );
 
   server.on("error", (error: NodeJS.ErrnoException) => {
     if (error.code === "EADDRINUSE") {
-      log.error(`Port ${port} is already in use`, undefined, {
-        details: false,
-      });
+      rootLogger.error(
+        {
+          err: error,
+          port,
+          code: error.code,
+        },
+        "Port is already in use",
+      );
     } else {
-      log.error("Server error", error);
+      rootLogger.error({ err: error }, "Server error");
     }
 
     process.exit(1);
@@ -45,6 +54,6 @@ try {
   process.on("SIGINT", shutdown);
   process.on("SIGTERM", shutdown);
 } catch (error) {
-  log.error("Failed to start server", error);
+  rootLogger.error({ err: error }, "Failed to start server");
   process.exit(1);
 }

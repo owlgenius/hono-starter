@@ -1,12 +1,11 @@
-import type { RouteHandler } from "@hono/zod-openapi";
-import type { AppEnv } from "@/types/hono.js";
+import type { AppRouteHandler } from "@/types/hono.js";
 import { getTodosService } from "../services/getTodos.service.js";
 import type { getTodosRoute } from "../routes/getTodos.route.js";
+import { OK } from "@/utils/http-status-codes.js";
 
-export const getTodosHandler: RouteHandler<
-  typeof getTodosRoute,
-  AppEnv
-> = async (c) => {
+export const getTodosHandler: AppRouteHandler<typeof getTodosRoute> = async (
+  c,
+) => {
   const userId = c.get("userId");
 
   const todos = await getTodosService({
@@ -18,6 +17,6 @@ export const getTodosHandler: RouteHandler<
       success: true,
       data: todos,
     },
-    200,
+    OK,
   );
 };

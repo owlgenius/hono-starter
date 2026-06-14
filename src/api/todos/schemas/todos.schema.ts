@@ -2,9 +2,9 @@ import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
-} from "../../../utils/drizzleZod.js";
+} from "@/utils/drizzleZod.js";
 import { z } from "@hono/zod-openapi";
-import { todosTable } from "../../../db/schema.js";
+import { todosTable } from "@/db/schema.js";
 
 const todoTitleInput = (schema: z.ZodString) =>
   schema.trim().min(1, "Title is required").openapi({

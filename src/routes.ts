@@ -1,6 +1,7 @@
 import todosRoutes from "./api/todos/routes/index.js";
 import { createAppRouter } from "./utils/createAppRouter.js";
 import { createRoute, z } from "@hono/zod-openapi";
+import { OK } from "./utils/http-status-codes.js";
 
 const routes = createAppRouter();
 
@@ -10,7 +11,7 @@ const healthRoute = createRoute({
   tags: ["Health"],
   summary: "Health check",
   responses: {
-    200: {
+    [OK]: {
       description: "API is healthy",
       content: {
         "application/json": {
@@ -30,7 +31,7 @@ routes.openapi(healthRoute, (c) => {
       success: true,
       status: "ok",
     },
-    200,
+    OK,
   );
 });
 

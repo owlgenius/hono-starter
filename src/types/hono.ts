@@ -1,4 +1,5 @@
 import pino from "pino";
+import type { OpenAPIHono, RouteConfig, RouteHandler } from "@hono/zod-openapi";
 
 export type AppEnv = {
   Variables: {
@@ -6,3 +7,7 @@ export type AppEnv = {
     userId: number;
   };
 };
+
+export type AppOpenAPI = OpenAPIHono<AppEnv>;
+
+export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R, AppEnv>;

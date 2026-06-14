@@ -1,4 +1,10 @@
 import type { ContentfulStatusCode } from "hono/utils/http-status";
+import {
+  BAD_REQUEST,
+  CONFLICT,
+  NOT_FOUND,
+  UNAUTHORIZED,
+} from "@/utils/http-status-codes.js";
 
 export const ERROR_CODES = {
   BAD_REQUEST: "BAD_REQUEST",
@@ -41,7 +47,7 @@ export class BadRequestError extends AppError {
     message: ErrorMessage = ERROR_MESSAGES.BAD_REQUEST,
     code = ERROR_CODES.BAD_REQUEST,
   ) {
-    super(400, code, message);
+    super(BAD_REQUEST, code, message);
   }
 }
 
@@ -51,7 +57,7 @@ export class ValidationError extends AppError {
     message: ErrorMessage = ERROR_MESSAGES.VALIDATION_ERROR,
     code = ERROR_CODES.VALIDATION_ERROR,
   ) {
-    super(400, code, message);
+    super(BAD_REQUEST, code, message);
   }
 }
 
@@ -60,7 +66,7 @@ export class UnauthorizedError extends AppError {
     message: ErrorMessage = ERROR_MESSAGES.UNAUTHORIZED,
     code = ERROR_CODES.UNAUTHORIZED,
   ) {
-    super(401, code, message);
+    super(UNAUTHORIZED, code, message);
   }
 }
 
@@ -69,7 +75,7 @@ export class NotFoundError extends AppError {
     message: ErrorMessage = ERROR_MESSAGES.NOT_FOUND,
     code = ERROR_CODES.NOT_FOUND,
   ) {
-    super(404, code, message);
+    super(NOT_FOUND, code, message);
   }
 }
 
@@ -78,6 +84,6 @@ export class ConflictError extends AppError {
     message: ErrorMessage = ERROR_MESSAGES.CONFLICT,
     code = ERROR_CODES.CONFLICT,
   ) {
-    super(409, code, message);
+    super(CONFLICT, code, message);
   }
 }

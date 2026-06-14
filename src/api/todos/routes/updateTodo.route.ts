@@ -10,6 +10,13 @@ import {
   unauthorizedResponse,
   validationErrorResponse,
 } from "../../common/openapi/responses.js";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK,
+  UNAUTHORIZED,
+} from "@/utils/http-status-codes.js";
 
 export const updateTodoRoute = createRoute({
   method: "put",
@@ -29,7 +36,7 @@ export const updateTodoRoute = createRoute({
     },
   },
   responses: {
-    200: {
+    [OK]: {
       description: "Todo updated successfully",
       content: {
         "application/json": {
@@ -37,9 +44,9 @@ export const updateTodoRoute = createRoute({
         },
       },
     },
-    400: validationErrorResponse,
-    401: unauthorizedResponse,
-    404: notFoundResponse("Todo"),
-    500: internalServerErrorResponse,
+    [BAD_REQUEST]: validationErrorResponse,
+    [UNAUTHORIZED]: unauthorizedResponse,
+    [NOT_FOUND]: notFoundResponse("Todo"),
+    [INTERNAL_SERVER_ERROR]: internalServerErrorResponse,
   },
 });

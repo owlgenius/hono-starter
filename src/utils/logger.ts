@@ -1,4 +1,5 @@
 import { theme } from "../config/chalk.theme.js";
+import { INTERNAL_SERVER_ERROR } from "./http-status-codes.js";
 
 type LogOptions = {
   details?: boolean;
@@ -50,9 +51,9 @@ export const log = {
     error?: unknown,
     options: LogOptions = {},
   ) {
-    const shouldShowDetails = options.details ?? status >= 500;
+    const shouldShowDetails = options.details ?? status >= INTERNAL_SERVER_ERROR;
 
-    if (status >= 500) {
+    if (status >= INTERNAL_SERVER_ERROR) {
       this.error(`HTTP ${status}: ${message}`, error, {
         details: shouldShowDetails,
       });
