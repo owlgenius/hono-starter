@@ -1,5 +1,6 @@
 import { check, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { defineRelations, sql } from "drizzle-orm";
+import { timestamps } from "@/db/helpers/columns.js";
 
 export const usersTable = sqliteTable(
   "users",
@@ -8,6 +9,7 @@ export const usersTable = sqliteTable(
     name: text({ length: 100 }).notNull(),
     age: int().notNull(),
     email: text({ length: 255 }).notNull().unique(),
+    ...timestamps,
   },
   (table) => [
     check("users_name_not_empty_check", sql`length(trim(${table.name})) > 0`),
@@ -25,10 +27,10 @@ export const todosTable = sqliteTable(
     title: text({ length: 200 }).notNull(),
     completed: int({ mode: "boolean" }).notNull().default(false),
 
-    // real FK column
     userId: int("user_id")
       .notNull()
       .references(() => usersTable.id),
+    ...timestamps,
   },
   (table) => [
     check("todos_title_not_empty_check", sql`length(trim(${table.title})) > 0`),

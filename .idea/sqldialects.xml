@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/drizzle/20260611085832_fast_lorna_dane/migration.sql" dialect="SQLite" />
-    <file url="file://$PROJECT_DIR$/drizzle/20260611145158_spotty_obadiah_stane/migration.sql" dialect="SQLite" />
-  </component>
-</project>
