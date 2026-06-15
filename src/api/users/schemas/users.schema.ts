@@ -45,6 +45,8 @@ export const CreateUserBodySchema = createInsertSchema(usersTable, {
 })
   .omit({
     id: true,
+    createdAt: true,
+    updatedAt: true,
   })
   .openapi("CreateUserBody");
 
@@ -55,6 +57,8 @@ export const UpdateUserBodySchema = createUpdateSchema(usersTable, {
 })
   .omit({
     id: true,
+    createdAt: true,
+    updatedAt: true,
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field is required",

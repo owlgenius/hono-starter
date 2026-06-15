@@ -30,6 +30,8 @@ export const TodoSchema = createSelectSchema(todosTable, {
   title: todoTitleOutput,
   completed: todoCompleted,
   userId: positiveId,
+  createdAt: z.coerce.date().openapi({ example: "2024-01-01T00:00:00.000Z" }),
+  updatedAt: z.coerce.date().openapi({ example: "2024-01-01T00:00:00.000Z" }),
 }).openapi("Todo");
 
 export const CreateTodoBodySchema = createInsertSchema(todosTable, {
@@ -39,6 +41,8 @@ export const CreateTodoBodySchema = createInsertSchema(todosTable, {
   .omit({
     id: true,
     userId: true,
+    createdAt: true,
+    updatedAt: true,
   })
   .openapi("CreateTodoBody");
 
@@ -49,6 +53,8 @@ export const UpdateTodoBodySchema = createUpdateSchema(todosTable, {
   .omit({
     id: true,
     userId: true,
+    createdAt: true,
+    updatedAt: true,
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field is required",
