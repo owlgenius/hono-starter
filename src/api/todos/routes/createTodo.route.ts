@@ -4,6 +4,7 @@ import {
   TodoResponseSchema,
 } from "../schemas/todos.schema.js";
 import {
+  badRequestErrorResponse,
   internalServerErrorResponse,
   unauthorizedResponse,
   validationErrorResponse,
@@ -13,6 +14,7 @@ import {
   CREATED,
   INTERNAL_SERVER_ERROR,
   UNAUTHORIZED,
+  UNPROCESSABLE_ENTITY,
 } from "@/utils/http-status-codes.js";
 
 export const createTodoRoute = createRoute({
@@ -40,8 +42,9 @@ export const createTodoRoute = createRoute({
         },
       },
     },
-    [BAD_REQUEST]: validationErrorResponse,
+    [BAD_REQUEST]: badRequestErrorResponse,
     [UNAUTHORIZED]: unauthorizedResponse,
+    [UNPROCESSABLE_ENTITY]: validationErrorResponse,
     [INTERNAL_SERVER_ERROR]: internalServerErrorResponse,
   },
 });

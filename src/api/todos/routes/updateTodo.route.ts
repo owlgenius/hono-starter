@@ -5,6 +5,7 @@ import {
   UpdateTodoParamsSchema,
 } from "../schemas/todos.schema.js";
 import {
+  badRequestErrorResponse,
   internalServerErrorResponse,
   notFoundResponse,
   unauthorizedResponse,
@@ -16,6 +17,7 @@ import {
   NOT_FOUND,
   OK,
   UNAUTHORIZED,
+  UNPROCESSABLE_ENTITY,
 } from "@/utils/http-status-codes.js";
 
 export const updateTodoRoute = createRoute({
@@ -44,9 +46,10 @@ export const updateTodoRoute = createRoute({
         },
       },
     },
-    [BAD_REQUEST]: validationErrorResponse,
+    [BAD_REQUEST]: badRequestErrorResponse,
     [UNAUTHORIZED]: unauthorizedResponse,
     [NOT_FOUND]: notFoundResponse("Todo"),
+    [UNPROCESSABLE_ENTITY]: validationErrorResponse,
     [INTERNAL_SERVER_ERROR]: internalServerErrorResponse,
   },
 });
