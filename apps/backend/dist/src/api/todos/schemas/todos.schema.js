@@ -7,7 +7,11 @@ const todoTitleInput = (schema) => schema.trim().min(1, "Title is required").ope
 const todoTitleOutput = (schema) => schema.openapi({
     example: "Learn Hono",
 });
-const todoCompleted = (schema) => schema.openapi({
+const todoCompletedInput = (schema) => schema.optional().openapi({
+    example: false,
+    description: "Whether the todo is completed",
+});
+const todoCompletedOutput = (schema) => schema.openapi({
     example: false,
     description: "Whether the todo is completed",
 });
@@ -15,14 +19,14 @@ const positiveId = (schema) => schema.positive().openapi({ example: 1 });
 export const TodoSchema = createSelectSchema(todosTable, {
     id: positiveId,
     title: todoTitleOutput,
-    completed: todoCompleted,
+    completed: todoCompletedOutput,
     userId: positiveId,
     createdAt: z.coerce.date().openapi({ example: "2024-01-01T00:00:00.000Z" }),
     updatedAt: z.coerce.date().openapi({ example: "2024-01-01T00:00:00.000Z" }),
 }).openapi("Todo");
 export const CreateTodoBodySchema = createInsertSchema(todosTable, {
     title: todoTitleInput,
-    completed: todoCompleted,
+    completed: todoCompletedInput,
 })
     .omit({
     id: true,
@@ -33,7 +37,7 @@ export const CreateTodoBodySchema = createInsertSchema(todosTable, {
     .openapi("CreateTodoBody");
 export const UpdateTodoBodySchema = createUpdateSchema(todosTable, {
     title: todoTitleInput,
-    completed: todoCompleted,
+    completed: todoCompletedInput,
 })
     .omit({
     id: true,
