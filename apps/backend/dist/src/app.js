@@ -1,12 +1,12 @@
 import routes from "./routes.js";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { structuredLogger } from "@hono/structured-logger";
-import { rootLogger } from "@/utils/pino.js";
-import { AppError, ERROR_CODES, ERROR_MESSAGES, ValidationError, } from "@/utils/errors.js";
+import { rootLogger } from "#src/utils/pino";
+import { AppError, ERROR_CODES, ERROR_MESSAGES, ValidationError, } from "#src/utils/errors";
 import { requestId } from "hono/request-id";
 import { HTTPException } from "hono/http-exception";
-import configureOpenAPI from "@/utils/configureOpenAPI.js";
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, TOO_MANY_REQUESTS, UNAUTHORIZED, UNPROCESSABLE_ENTITY, } from "@/utils/http-status-codes.js";
+import configureOpenAPI from "#src/utils/configureOpenAPI";
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, TOO_MANY_REQUESTS, UNAUTHORIZED, UNPROCESSABLE_ENTITY, } from "#src/utils/http-status-codes";
 export function createApp() {
     const app = new OpenAPIHono({
         strict: false,
@@ -84,7 +84,7 @@ export function createApp() {
             },
         }, INTERNAL_SERVER_ERROR);
     });
-    app.route("/api", routes);
-    return app;
+    const appWithRoutes = app.route("/api", routes);
+    return appWithRoutes;
 }
 export const app = createApp();

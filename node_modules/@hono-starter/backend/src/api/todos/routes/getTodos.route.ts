@@ -8,7 +8,7 @@ import {
   INTERNAL_SERVER_ERROR,
   OK,
   UNAUTHORIZED,
-} from "@/utils/http-status-codes.js";
+} from "#src/utils/http-status-codes";
 
 export const getTodosRoute = createRoute({
   method: "get",

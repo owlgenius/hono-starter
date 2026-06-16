@@ -1,4 +1,4 @@
-import { BAD_REQUEST, CONFLICT, NOT_FOUND, UNAUTHORIZED, } from "@/utils/http-status-codes.js";
+import { BAD_REQUEST, CONFLICT, NOT_FOUND, UNAUTHORIZED, UNPROCESSABLE_ENTITY, } from "#src/utils/http-status-codes";
 export const ERROR_CODES = {
     BAD_REQUEST: "BAD_REQUEST",
     UNAUTHORIZED: "UNAUTHORIZED",
@@ -15,6 +15,7 @@ export const ERROR_MESSAGES = {
     BAD_REQUEST: "Bad Request",
     VALIDATION_ERROR: "Validation failed",
     UNAUTHORIZED: "Unauthorized",
+    UNPROCESSABLE_ENTITY: "Unprocessable Entity",
     NOT_FOUND: "Not Found",
     CONFLICT: "Conflict",
     INTERNAL_SERVER_ERROR: "Internal Server Error",
@@ -37,7 +38,7 @@ export class BadRequestError extends AppError {
 export class ValidationError extends AppError {
     fields;
     constructor(fields, message = ERROR_MESSAGES.VALIDATION_ERROR, code = ERROR_CODES.VALIDATION_ERROR) {
-        super(BAD_REQUEST, code, message);
+        super(UNPROCESSABLE_ENTITY, code, message);
         this.fields = fields;
     }
 }

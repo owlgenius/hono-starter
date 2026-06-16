@@ -1,7 +1,7 @@
 import { createRoute } from "@hono/zod-openapi";
 import { TodosListResponseSchema } from "../schemas/todos.schema.js";
 import { internalServerErrorResponse, unauthorizedResponse, } from "../../common/openapi/responses.js";
-import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED, } from "@/utils/http-status-codes.js";
+import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED, } from "#src/utils/http-status-codes";
 export const getTodosRoute = createRoute({
     method: "get",
     path: "/",

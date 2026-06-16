@@ -1,6 +1,6 @@
 import { createTodoService } from "../services/createTodo.service.js";
 import { createTodoRoute } from "../routes/createTodo.route.js";
-import { CREATED } from "@/utils/http-status-codes.js";
+import { CREATED } from "#src/utils/http-status-codes";
 export const createTodoHandler = async (c) => {
     const userId = c.get("userId");
     const body = c.req.valid("json");

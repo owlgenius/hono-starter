@@ -1,5 +1,5 @@
 import { z } from "@hono/zod-openapi";
-import { ERROR_CODES, ERROR_MESSAGES } from "@/utils/errors.js";
+import { ERROR_CODES, ERROR_MESSAGES } from "#src/utils/errors";
 
 export const BadRequestErrorResponseSchema = z
   .object({

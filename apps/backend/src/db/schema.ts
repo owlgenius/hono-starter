@@ -1,6 +1,6 @@
 import { check, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { defineRelations, sql } from "drizzle-orm";
-import { timestamps } from "@/db/helpers/columns.js";
+import { timestamps } from "#src/db/helpers/columns";
 
 export const usersTable = sqliteTable(
   "users",

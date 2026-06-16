@@ -5,7 +5,7 @@ import {
   UnauthorizedErrorResponseSchema,
   ValidationErrorResponseSchema,
 } from "../schemas/response.schema.js";
-import { ERROR_MESSAGES } from "@/utils/errors.js";
+import { ERROR_MESSAGES } from "#src/utils/errors";
 
 export const badRequestErrorResponse = {
   description: ERROR_MESSAGES.BAD_REQUEST,

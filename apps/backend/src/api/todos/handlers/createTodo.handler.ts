@@ -1,7 +1,7 @@
-import type { AppRouteHandler } from "@/types/hono.js";
+import type { AppRouteHandler } from "#src/types/hono";
 import { createTodoService } from "../services/createTodo.service.js";
 import { createTodoRoute } from "../routes/createTodo.route.js";
-import { CREATED } from "@/utils/http-status-codes.js";
+import { CREATED } from "#src/utils/http-status-codes";
 
 export const createTodoHandler: AppRouteHandler<
   typeof createTodoRoute

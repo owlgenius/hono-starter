@@ -1,4 +1,4 @@
-import type { AppOpenAPI } from "@/types/hono.js";
+import type { AppOpenAPI } from "#src/types/hono";
 import { swaggerUI } from "@hono/swagger-ui";
 import { Scalar } from "@scalar/hono-api-reference";
 

@@ -1,10 +1,10 @@
-import { InternalServerErrorResponseSchema, NotFoundErrorResponseSchema, UnauthorizedErrorResponseSchema, ValidationErrorResponseSchema, } from "../schemas/response.schema.js";
-import { ERROR_MESSAGES } from "../../../utils/errors.js";
-export const validationErrorResponse = {
-    description: ERROR_MESSAGES.VALIDATION_ERROR,
+import { BadRequestErrorResponseSchema, InternalServerErrorResponseSchema, NotFoundErrorResponseSchema, UnauthorizedErrorResponseSchema, ValidationErrorResponseSchema, } from "../schemas/response.schema.js";
+import { ERROR_MESSAGES } from "#src/utils/errors";
+export const badRequestErrorResponse = {
+    description: ERROR_MESSAGES.BAD_REQUEST,
     content: {
         "application/json": {
-            schema: ValidationErrorResponseSchema,
+            schema: BadRequestErrorResponseSchema,
         },
     },
 };
@@ -13,6 +13,14 @@ export const unauthorizedResponse = {
     content: {
         "application/json": {
             schema: UnauthorizedErrorResponseSchema,
+        },
+    },
+};
+export const validationErrorResponse = {
+    description: ERROR_MESSAGES.VALIDATION_ERROR,
+    content: {
+        "application/json": {
+            schema: ValidationErrorResponseSchema,
         },
     },
 };

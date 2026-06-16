@@ -1,5 +1,5 @@
 import { getTodosService } from "../services/getTodos.service.js";
-import { OK } from "@/utils/http-status-codes.js";
+import { OK } from "#src/utils/http-status-codes";
 export const getTodosHandler = async (c) => {
     const userId = c.get("userId");
     const todos = await getTodosService({

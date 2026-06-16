@@ -4,7 +4,7 @@ import { app } from "./app.js";
 import { setupDatabase } from "./db/config.js";
 import { log } from "./utils/logger.js";
 import env from "../env.js";
-import { rootLogger } from "@/utils/pino.js";
+import { rootLogger } from "#src/utils/pino";
 try {
     await setupDatabase();
     const port = Number(env.PORT ?? 3001);

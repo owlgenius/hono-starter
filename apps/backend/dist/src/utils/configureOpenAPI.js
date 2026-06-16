@@ -15,7 +15,7 @@ export default function configureOpenAPI(app) {
     });
     app.get("/scalar", Scalar({
         url: "/doc",
-        theme: "kepler",
+        theme: "elysiajs",
         defaultHttpClient: { targetKey: "javascript", clientKey: "fetch" },
     }));
     app.get("/ui", swaggerUI({ url: "/doc" }));

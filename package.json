@@ -1,7 +1,9 @@
 {
   "name": "hono-starter",
   "private": true,
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "dev:backend": "npm run dev -w @hono-starter/backend",
     "dev:frontend": "npm run dev -w @hono-starter/frontend",
@@ -11,6 +13,7 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "prettier": "3.8.4",
     "prettier-plugin-svelte": "^3.4.0"
   }

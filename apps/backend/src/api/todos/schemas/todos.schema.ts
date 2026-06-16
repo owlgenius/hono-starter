@@ -2,9 +2,9 @@ import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
-} from "@/utils/drizzleZod.js";
+} from "#src/utils/drizzleZod";
 import { z } from "@hono/zod-openapi";
-import { todosTable } from "@/db/schema.js";
+import { todosTable } from "#src/db/schema";
 
 const todoTitleInput = (schema: z.ZodString) =>
   schema.trim().min(1, "Title is required").openapi({
@@ -16,7 +16,13 @@ const todoTitleOutput = (schema: z.ZodString) =>
     example: "Learn Hono",
   });
 
-const todoCompleted = (schema: z.ZodBoolean) =>
+const todoCompletedInput = (schema: z.ZodBoolean) =>
+  schema.optional().openapi({
+    example: false,
+    description: "Whether the todo is completed",
+  });
+
+const todoCompletedOutput = (schema: z.ZodBoolean) =>
   schema.openapi({
     example: false,
     description: "Whether the todo is completed",
@@ -28,7 +34,7 @@ const positiveId = (schema: z.ZodNumber) =>
 export const TodoSchema = createSelectSchema(todosTable, {
   id: positiveId,
   title: todoTitleOutput,
-  completed: todoCompleted,
+  completed: todoCompletedOutput,
   userId: positiveId,
   createdAt: z.coerce.date().openapi({ example: "2024-01-01T00:00:00.000Z" }),
   updatedAt: z.coerce.date().openapi({ example: "2024-01-01T00:00:00.000Z" }),
@@ -36,7 +42,7 @@ export const TodoSchema = createSelectSchema(todosTable, {
 
 export const CreateTodoBodySchema = createInsertSchema(todosTable, {
   title: todoTitleInput,
-  completed: todoCompleted,
+  completed: todoCompletedInput,
 })
   .omit({
     id: true,
@@ -48,7 +54,7 @@ export const CreateTodoBodySchema = createInsertSchema(todosTable, {
 
 export const UpdateTodoBodySchema = createUpdateSchema(todosTable, {
   title: todoTitleInput,
-  completed: todoCompleted,
+  completed: todoCompletedInput,
 })
   .omit({
     id: true,

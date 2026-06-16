@@ -18,7 +18,7 @@ import {
   OK,
   UNAUTHORIZED,
   UNPROCESSABLE_ENTITY,
-} from "@/utils/http-status-codes.js";
+} from "#src/utils/http-status-codes";
 
 export const updateTodoRoute = createRoute({
   method: "put",

@@ -5,7 +5,7 @@ import {
   NOT_FOUND,
   UNAUTHORIZED,
   UNPROCESSABLE_ENTITY,
-} from "@/utils/http-status-codes.js";
+} from "#src/utils/http-status-codes";
 
 export const ERROR_CODES = {
   BAD_REQUEST: "BAD_REQUEST",

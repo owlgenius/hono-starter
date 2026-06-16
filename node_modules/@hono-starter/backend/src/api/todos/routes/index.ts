@@ -1,4 +1,4 @@
-import { createAppRouter } from "@/utils/createAppRouter.js";
+import { createAppRouter } from "#src/utils/createAppRouter";
 import { authMiddleware } from "../../users/middleware/auth.middleware.js";
 import { getTodosHandler } from "../handlers/getTodos.handler.js";
 import { createTodoHandler } from "../handlers/createTodo.handler.js";

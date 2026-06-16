@@ -1,6 +1,6 @@
 import { updateTodoRoute } from "../routes/updateTodo.route.js";
 import { updateTodoService } from "../services/updateTodo.service.js";
-import { OK } from "@/utils/http-status-codes.js";
+import { OK } from "#src/utils/http-status-codes";
 export const updateTodoHandler = async (c) => {
     const userId = c.get("userId");
     const { todoId } = c.req.valid("param");

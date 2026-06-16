@@ -15,6 +15,7 @@ export async function setupDatabase() {
         url: env.DB_FILE_NAME,
     });
     const database = drizzle({ client, relations });
+    // Test the connection
     await client.execute("select 1");
     db = database;
     log.database("Connected successfully");

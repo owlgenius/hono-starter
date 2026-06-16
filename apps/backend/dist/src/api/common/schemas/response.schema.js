@@ -1,5 +1,18 @@
 import { z } from "@hono/zod-openapi";
-import { ERROR_CODES, ERROR_MESSAGES } from "../../../utils/errors.js";
+import { ERROR_CODES, ERROR_MESSAGES } from "#src/utils/errors";
+export const BadRequestErrorResponseSchema = z
+    .object({
+    success: z.literal(false).openapi({ example: false }),
+    error: z.object({
+        code: z.literal(ERROR_CODES.BAD_REQUEST).openapi({
+            example: ERROR_CODES.BAD_REQUEST,
+        }),
+        message: z.string().openapi({
+            example: "Malformed JSON in request body",
+        }),
+    }),
+})
+    .openapi("BadRequestErrorResponse");
 export const ValidationErrorResponseSchema = z
     .object({
     success: z.literal(false).openapi({ example: false }),

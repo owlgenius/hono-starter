@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { log } from "@/utils/logger.js";
+import { log } from "#src/utils/logger";
 const logLevels = [
     "fatal",
     "error",
