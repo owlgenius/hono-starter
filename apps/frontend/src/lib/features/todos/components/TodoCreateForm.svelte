@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { superForm, type SuperValidated } from "sveltekit-superforms";
+  import { ApiError } from "$lib/api/errors.js";
   import { Alert, AlertDescription } from "$lib/components/ui/alert/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
   import {
@@ -9,28 +9,105 @@
     CardHeader,
     CardTitle,
   } from "$lib/components/ui/card/index.js";
-  import * as Form from "$lib/components/ui/form/index.js";
-  import { Input } from "$lib/components/ui/input/index.js";
   import { Checkbox } from "$lib/components/ui/checkbox/index.js";
+  import { Input } from "$lib/components/ui/input/index.js";
+  import { Label } from "$lib/components/ui/label/index.js";
+  import { createCreateTodoMutation } from "$lib/features/todos/data-access/todos.api.js";
   import {
+    todoCreateFormSchema,
     type TodoCreateFormData,
   } from "$lib/features/todos/schemas.js";
 
-  type Props = {
-    data: SuperValidated<TodoCreateFormData, string>;
-  };
+  type FieldErrors = Partial<Record<keyof TodoCreateFormData, string>>;
 
-  const { data }: Props = $props();
+  let title = $state("");
+  let completed = $state(false);
+  let fieldErrors = $state<FieldErrors>({});
+  let formError = $state<string | undefined>();
+  let message = $state<string | undefined>();
 
-  function getInitialFormData() {
-    return data;
+  const createTodoMutation = createCreateTodoMutation();
+
+  function getFieldError(fields: unknown, field: string) {
+    if (typeof fields !== "object" || fields === null || !(field in fields)) {
+      return undefined;
+    }
+
+    const value = (fields as Record<string, unknown>)[field];
+
+    return typeof value === "string" ? value : undefined;
   }
 
-  const todoForm = superForm(getInitialFormData(), {
-    resetForm: true,
-  });
+  function getValidationErrors(data: unknown) {
+    const result = todoCreateFormSchema.safeParse(data);
 
-  const { form: formData, enhance, errors, message, submitting } = todoForm;
+    if (result.success) {
+      return {
+        data: result.data,
+        errors: undefined,
+      };
+    }
+
+    const flattened = result.error.flatten().fieldErrors;
+    const errors: FieldErrors = {};
+
+    if (flattened.title?.[0]) {
+      errors.title = flattened.title[0];
+    }
+
+    if (flattened.completed?.[0]) {
+      errors.completed = flattened.completed[0];
+    }
+
+    return {
+      data: undefined,
+      errors,
+    };
+  }
+
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+
+    fieldErrors = {};
+    formError = undefined;
+    message = undefined;
+
+    const validation = getValidationErrors({
+      title,
+      completed,
+    });
+
+    if (validation.errors) {
+      fieldErrors = validation.errors;
+      return;
+    }
+
+    try {
+      await createTodoMutation.mutateAsync(validation.data);
+
+      title = "";
+      completed = false;
+      message = "Todo created successfully.";
+    } catch (err) {
+      if (err instanceof ApiError) {
+        const titleError = getFieldError(err.fields, "title");
+        const completedError = getFieldError(err.fields, "completed");
+
+        if (titleError || completedError) {
+          fieldErrors = {
+            ...(titleError ? { title: titleError } : {}),
+            ...(completedError ? { completed: completedError } : {}),
+          };
+          return;
+        }
+
+        formError = err.message;
+        return;
+      }
+
+      formError = "Unable to create todo.";
+    }
+  }
 </script>
 
 <Card>
@@ -40,56 +117,60 @@
   </CardHeader>
 
   <CardContent>
-    <form method="POST" class="space-y-4" use:enhance>
-      {#if $message}
+    <form class="space-y-4" onsubmit={handleSubmit}>
+      {#if message}
         <Alert>
-          <AlertDescription>{$message}</AlertDescription>
+          <AlertDescription>{message}</AlertDescription>
         </Alert>
       {/if}
 
-      {#if $errors._errors?.length}
+      {#if formError}
         <Alert variant="destructive">
-          <AlertDescription>{$errors._errors[0]}</AlertDescription>
+          <AlertDescription>{formError}</AlertDescription>
         </Alert>
       {/if}
 
-      <Form.ElementField form={todoForm} name="title">
-        {#snippet children({ constraints })}
-          <Form.Control>
-            {#snippet children({ props })}
-              <Form.Label>Title</Form.Label>
-              <Input
-                {...props}
-                {...constraints}
-                bind:value={$formData.title}
-                placeholder="Learn SvelteKit actions"
-              />
-            {/snippet}
-          </Form.Control>
-          <Form.Description>Keep it short and actionable.</Form.Description>
-          <Form.FieldErrors />
-        {/snippet}
-      </Form.ElementField>
+      <div class="space-y-2">
+        <Label for="title">Title</Label>
+        <Input
+          id="title"
+          name="title"
+          bind:value={title}
+          aria-invalid={!!fieldErrors.title}
+          placeholder="Learn SvelteKit actions"
+        />
 
-      <Form.ElementField form={todoForm} name="completed">
-        {#snippet children({ constraints })}
-          <Form.Control>
-            {#snippet children({ props })}
-              <Form.Label>Completed</Form.Label>
-              <Checkbox
-                type="checkbox"
-                {...props}
-                {...constraints}
-              />
-            {/snippet}
-          </Form.Control>
-          <Form.Description>Keep it short and actionable.</Form.Description>
-          <Form.FieldErrors />
-        {/snippet}
-      </Form.ElementField>
+        {#if fieldErrors.title}
+          <p class="text-destructive text-sm">{fieldErrors.title}</p>
+        {:else}
+          <p class="text-muted-foreground text-sm">
+            Keep it short and actionable.
+          </p>
+        {/if}
+      </div>
 
-      <Button type="submit" disabled={$submitting}>
-        {$submitting ? "Adding..." : "Add todo"}
+      <div class="space-y-2">
+        <div class="flex items-center gap-2">
+          <Checkbox
+            id="completed"
+            name="completed"
+            bind:checked={completed}
+            aria-invalid={!!fieldErrors.completed}
+          />
+          <Label for="completed">Completed</Label>
+        </div>
+
+        {#if fieldErrors.completed}
+          <p class="text-destructive text-sm">{fieldErrors.completed}</p>
+        {:else}
+          <p class="text-muted-foreground text-sm">
+            Mark the todo as already completed.
+          </p>
+        {/if}
+      </div>
+
+      <Button type="submit" disabled={createTodoMutation.isPending}>
+        {createTodoMutation.isPending ? "Adding..." : "Add todo"}
       </Button>
     </form>
   </CardContent>

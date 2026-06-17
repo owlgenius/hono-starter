@@ -15,7 +15,7 @@ type CreateTodoResponse = InferResponseType<CreateTodoEndpoint, 201>;
 export type Todo = GetTodosResponse["data"][number];
 export type CreateTodoInput = InferRequestType<CreateTodoEndpoint>["json"];
 
-export async function getTodos(fetch: ApiFetch): Promise<Todo[]> {
+export async function getTodos(fetch?: ApiFetch): Promise<Todo[]> {
   const api = createApiClient(fetch);
   const response = await api.todos.$get();
 
@@ -23,8 +23,8 @@ export async function getTodos(fetch: ApiFetch): Promise<Todo[]> {
 }
 
 export async function createTodo(
-  fetch: ApiFetch,
   input: CreateTodoInput,
+  fetch?: ApiFetch,
 ): Promise<Todo> {
   const api = createApiClient(fetch);
   const response = await api.todos.$post({

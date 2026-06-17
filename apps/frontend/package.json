@@ -13,6 +13,8 @@
 	},
 	"dependencies": {
 		"@hono-starter/backend": "*",
+		"@tanstack/svelte-query": "^6.1.34",
+		"@tanstack/svelte-query-devtools": "^6.1.34",
 		"hono": "^4.12.23",
 		"sveltekit-superforms": "^2.30.1",
 		"zod": "^4.4.3"

@@ -1,10 +1,6 @@
 <script lang="ts">
-  import { Alert, AlertDescription } from "$lib/components/ui/alert/index.js";
   import TodoCreateForm from "$lib/features/todos/components/TodoCreateForm.svelte";
   import TodoList from "$lib/features/todos/components/TodoList.svelte";
-  import type { PageData } from "./$types";
-
-  let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
@@ -20,12 +16,6 @@
     </p>
   </header>
 
-  {#if data.loadError}
-    <Alert variant="destructive">
-      <AlertDescription>{data.loadError}</AlertDescription>
-    </Alert>
-  {/if}
-
-  <TodoCreateForm data={data.form} />
-  <TodoList todos={data.todos} />
+  <TodoCreateForm />
+  <TodoList />
 </main>
