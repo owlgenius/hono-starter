@@ -24,11 +24,15 @@ import {
 } from "#src/utils/http-status-codes";
 import { cors } from "hono/cors";
 import env from "../env.js";
+import { csrf } from "hono/csrf";
+import { secureHeaders } from "hono/secure-headers";
 
 export function createApp() {
   const app = new OpenAPIHono<AppEnv>({
     strict: false,
   });
+
+  app.use("*", secureHeaders());
 
   app.use(
     "/api/*",
@@ -36,6 +40,15 @@ export function createApp() {
       origin: env.CORS_ORIGINS,
       allowHeaders: ["Content-Type", "Authorization"],
       allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    }),
+  );
+
+  // Block requests from unauthorized origins trying to execute unsafe HTTP methods
+  app.use(
+    "*",
+    csrf({
+      origin: env.CORS_ORIGINS,
+      secFetchSite: "same-origin", // Alternatively, use arrays like ['same-origin', 'none']
     }),
   );
 
