@@ -16,6 +16,15 @@ const EnvSchema = z.object({
   LOG_LEVEL: z.enum(logLevels).default("debug"),
   DB_FILE_NAME: z.string().default("file:local.db"),
   PORT: z.coerce.number().default(3001),
+  CORS_ORIGINS: z
+    .string()
+    .default("http://localhost:5173")
+    .transform((value) =>
+      value
+        .split(",")
+        .map((origin) => origin.trim())
+        .filter(Boolean),
+    ),
 });
 
 let env: z.infer<typeof EnvSchema>;

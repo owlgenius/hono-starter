@@ -11,7 +11,7 @@ export const todoCreateFormSchema = z.object({
       TODO_TITLE_MAX_LENGTH,
       `Title must be ${TODO_TITLE_MAX_LENGTH} characters or less.`,
     ),
-  completed: z.boolean().optional(),
+  completed: z.boolean().default(false),
 });
 
 export type TodoCreateFormData = z.infer<typeof todoCreateFormSchema>;

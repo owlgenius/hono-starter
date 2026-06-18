@@ -5,6 +5,9 @@ import { defineConfig } from "vite";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig({
+  optimizeDeps: {
+    include: ["memoize-weak"],
+  },
   resolve: {
     alias: {
       "sveltekit-superforms/adapters": fileURLToPath(

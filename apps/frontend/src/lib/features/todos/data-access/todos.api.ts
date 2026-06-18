@@ -7,11 +7,11 @@ import {
   type QueryClient,
 } from "@tanstack/svelte-query";
 import type { ApiFetch } from "$lib/api/client.js";
-import { createTodo, getTodos } from "./todos.service.js";
+import { createTodo, getTodos, updateTodo } from "./todos.service.js";
 import { todosQueryKeys } from "./todos.query-keys.js";
-import type { CreateTodoInput, Todo } from "./todos.service.js";
+import type { CreateTodoInput, Todo, UpdateTodoInput } from "./todos.service.js";
 
-export type { CreateTodoInput, Todo };
+export type { CreateTodoInput, Todo, UpdateTodoInput };
 
 export function getTodosQueryOptions(fetch?: ApiFetch) {
   return queryOptions({
@@ -26,7 +26,6 @@ export function createTodosQuery(fetch?: ApiFetch) {
 
 export function getCreateTodoMutationOptions(queryClient: QueryClient) {
   return mutationOptions({
-    mutationKey: todosQueryKeys.create(),
     mutationFn: (input: CreateTodoInput) => createTodo(input),
     onSuccess: () => {
       void queryClient.invalidateQueries({
@@ -40,4 +39,25 @@ export function createCreateTodoMutation() {
   const queryClient = useQueryClient();
 
   return createMutation(() => getCreateTodoMutationOptions(queryClient));
+}
+
+export function getUpdateTodoMutationOptions(queryClient: QueryClient) {
+  return mutationOptions({
+    mutationFn: (input: UpdateTodoInput) => updateTodo(input),
+    onSuccess: (todo) => {
+      void queryClient.invalidateQueries({
+        queryKey: todosQueryKeys.list(),
+      });
+
+      void queryClient.invalidateQueries({
+        queryKey: todosQueryKeys.details(todo.id),
+      });
+    },
+  });
+}
+
+export function createUpdateTodoMutation() {
+  const queryClient = useQueryClient();
+
+  return createMutation(() => getUpdateTodoMutationOptions(queryClient));
 }

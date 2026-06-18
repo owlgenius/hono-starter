@@ -1,9 +1,13 @@
 import { ApiError } from "./errors.js";
 
-type ApiSuccessEnvelope<T> = {
+type ApiSuccessEnvelope<T = unknown> = {
   success: true;
   data: T;
 };
+
+type ApiSuccessData<TEnvelope> = TEnvelope extends ApiSuccessEnvelope<infer TData>
+  ? TData
+  : never;
 
 type ApiErrorEnvelope = {
   success: false;
@@ -33,12 +37,6 @@ function isApiErrorEnvelope(value: unknown): value is ApiErrorEnvelope {
 }
 
 async function parseJsonSafely(response: Response) {
-  const contentType = response.headers.get("content-type");
-
-  if (!contentType?.includes("application/json")) {
-    return undefined;
-  }
-
   try {
     return await response.json();
   } catch {
@@ -46,7 +44,9 @@ async function parseJsonSafely(response: Response) {
   }
 }
 
-export async function unwrapApiData<T>(response: Response): Promise<T> {
+export async function unwrapApiData<TEnvelope extends ApiSuccessEnvelope>(
+  response: Response,
+): Promise<ApiSuccessData<TEnvelope>> {
   const payload = await parseJsonSafely(response);
 
   if (!response.ok) {
@@ -67,7 +67,7 @@ export async function unwrapApiData<T>(response: Response): Promise<T> {
     });
   }
 
-  if (isApiSuccessEnvelope<T>(payload)) {
+  if (isApiSuccessEnvelope<ApiSuccessData<TEnvelope>>(payload)) {
     return payload.data;
   }
 

@@ -1,4 +1,7 @@
-// Superforms' public adapter barrel imports every optional validation adapter.
-// Vite 8/Rolldown validates those optional imports before tree-shaking, so this
-// app aliases the documented adapter path to the Zod-only adapter surface we use.
-export { zod as zod4 } from "../../../../../node_modules/sveltekit-superforms/dist/adapters/zod4.js";
+// Superforms' adapter barrel imports every optional validation adapter. Vite 8/Rolldown
+// validates those optional imports before tree-shaking, so expose only the official
+// Zod v4 adapters this app uses.
+export {
+  zod as zod4,
+  zodClient as zod4Client,
+} from "../../../../../node_modules/sveltekit-superforms/dist/adapters/zod4.js";

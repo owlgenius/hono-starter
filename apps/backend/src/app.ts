@@ -22,11 +22,22 @@ import {
   UNAUTHORIZED,
   UNPROCESSABLE_ENTITY,
 } from "#src/utils/http-status-codes";
+import { cors } from "hono/cors";
+import env from "../env.js";
 
 export function createApp() {
   const app = new OpenAPIHono<AppEnv>({
     strict: false,
   });
+
+  app.use(
+    "/api/*",
+    cors({
+      origin: env.CORS_ORIGINS,
+      allowHeaders: ["Content-Type", "Authorization"],
+      allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    }),
+  );
 
   configureOpenAPI(app);
 

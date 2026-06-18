@@ -1,6 +1,11 @@
 <script lang="ts">
   import TodoCreateForm from "$lib/features/todos/components/TodoCreateForm.svelte";
   import TodoList from "$lib/features/todos/components/TodoList.svelte";
+  import type { Todo } from "$lib/features/todos/data-access/todos.api.js";
+  import type { PageProps } from "./$types";
+
+  let { data }: PageProps = $props();
+  let selectedTodo = $state<Todo | undefined>();
 </script>
 
 <svelte:head>
@@ -16,6 +21,23 @@
     </p>
   </header>
 
-  <TodoCreateForm />
-  <TodoList />
+  {#key selectedTodo?.id ?? "create"}
+    <TodoCreateForm
+      data={data.form}
+      todo={selectedTodo}
+      onSaved={(todo) => {
+        selectedTodo = undefined;
+      }}
+      onCancelEdit={() => {
+        selectedTodo = undefined;
+      }}
+    />
+  {/key}
+
+  <TodoList
+    selectedTodoId={selectedTodo?.id}
+    onEdit={(todo) => {
+      selectedTodo = todo;
+    }}
+  />
 </main>
